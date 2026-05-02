@@ -1,0 +1,9 @@
+PROJECT_NAME     = BrickGame
+PROJECT_NUMBER   = v1.0 aka Tetris
+OUTPUT_DIRECTORY = documentation
+INPUT            = brick_game/tetris gui/cli
+FILE_PATTERNS    = *.c *.h
+RECURSIVE        = YES
+GENERATE_LATEX   = NO
+GENERATE_HTML    = YES
+HTML_OUTPUT      = html
