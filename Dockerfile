@@ -13,10 +13,11 @@ RUN apt-get update && apt-get install -y \
     libncurses5-dev \
     libncursesw5-dev \
     check \
-    clang-format \
+    clang-format-18 \
     lcov \
     valgrind \
     doxygen \
+    && ln -s /usr/bin/clang-format-18 /usr/bin/clang-format \
     && rm -rf /var/lib/apt/lists/*
 
 COPY . .
