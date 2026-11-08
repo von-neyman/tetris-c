@@ -87,3 +87,25 @@
 | make format_check | Проверка стиля (Google Style)      |
 | make format_fix   | Автоматическое форматирование      |
 | make valgrind     | Проверка утечек памяти             |
+
+## **Docker**
+
+В проекте используется единый Dockerfile с двумя стадиями. Позволяет собирать как «легкий» образ для игры, так и «тяжелый» образ для разработки и тестирования.
+
+- *Production*. В этом образе нет компилятора и исходников, только сама игра и библиотеки, необходимые для её запуска.
+
+```bash
+# Сборка
+docker build --target production -t tetris:prod .
+# Запуск
+docker run -it tetris:prod
+```
+
+- *Development*. В этом образе есть компилятор и все утилиты.
+
+```bash
+# Сборка
+docker build --target development -t tetris:dev .
+# Запуск (консоль bash)
+docker run -it tetris:dev
+```
