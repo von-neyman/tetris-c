@@ -1,0 +1,24 @@
+name: Tetris C / CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check style
+        run: docker build --target checkstyle -t tetris:checkstyle .
+
+      - name: Compile
+        run: docker build --target compile -t tetris:compile .
+
+      - name: Run tests
+        run: docker build --target test -t tetris:test .

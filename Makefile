@@ -110,7 +110,7 @@ rebuild: clean all
 
 # Проверка стиля
 format_check:
-	clang-format -style=Google -n brick_game/tetris/*.c brick_game/tetris/*.h gui/cli/*.c gui/cli/*.h tests/*.c
+	clang-format -style=Google -n -Werror brick_game/tetris/*.c brick_game/tetris/*.h gui/cli/*.c gui/cli/*.h tests/*.c
 
 # Автоматическое форматирование
 format_fix:
