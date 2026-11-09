@@ -79,6 +79,8 @@ END_TEST
 
 // Проверка поворота фигуры
 START_TEST(test_rotate) {
+  initiation_game();
+  srand(1);
   userInput(Start, false);
   userInput(-1, false);
   Tetromino before = game.current;
@@ -326,8 +328,6 @@ Suite *tetris_suite() {
 // ============================================
 
 int main() {
-  // Фиксируем seed
-  srand(1);
   // Создаем набор тестов
   Suite *s = tetris_suite();
   // Создаем runner для выполнения тестов
