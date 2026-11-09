@@ -1,8 +1,5 @@
 FROM ubuntu:26.04 AS base
 
-RUN apt-get update && apt-get install -y acl \
-    && rm -rf /var/lib/apt/lists/*
-
 WORKDIR /app
 
 # Стадия разработки
@@ -23,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 COPY . .
 
 RUN useradd -m -s /bin/bash developer \
-    && setfacl -R -m u:developer:rwx /app
+    && chmod -R 777 /app
 
 USER developer
 CMD ["bash"]
@@ -51,8 +48,7 @@ COPY --from=compile /app/tetris .
 COPY --from=compile /app/resources ./resources
 
 RUN useradd -m -s /bin/bash player \
-    && setfacl -R -m u:player:rwx /app \
-    && setfacl -d -m u:player:rwx /app/resources
+    && chmod -R 777 /app/resources
 
 USER player
 CMD ["./tetris"]
