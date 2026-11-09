@@ -51,7 +51,8 @@ COPY --from=compile /app/tetris .
 COPY --from=compile /app/resources ./resources
 
 RUN useradd -m -s /bin/bash player \
-    && setfacl -R -m u:player:rwx /app
+    && setfacl -R -m u:player:rwx /app \
+    && setfacl -d -m u:player:rwx /app/resources
 
 USER player
 CMD ["./tetris"]
