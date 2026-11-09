@@ -14,13 +14,37 @@ jobs:
         uses: actions/checkout@v6
 
       - name: Check style
+        id: style
         run: docker build --target checkstyle -t tetris:checkstyle .
 
       - name: Compile
+        id: compile
         run: docker build --target compile -t tetris:compile .
 
       - name: Run tests
+        id: tests
         run: docker build --target test -t tetris:test .
+
+      - name: Notify Telegram
+        if: always()
+        uses: cbrgm/telegram-github-action@v1
+        with:
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            *Репозиторий:* ${{ github.repository }}
+            *Пайплайн:* ${{ github.workflow }}
+            *Этап CI:* ${{ job.status == 'success' && 'успех' || 'провал' }}
+            - *Стиль:* ${{ steps.style.outcome == 'success' && 'успех' || 'провал' }}
+            - *Компиляция:* ${{ steps.compile.outcome == 'success' && 'успех' || 'провал' }}
+            - *Тесты:* ${{ steps.tests.outcome == 'success' && 'успех' || 'провал' }}
+            *Автор:* ${{ github.actor }}
+            *Ветка:* ${{ github.ref_name }}
+            *Коммит:* ${{ github.sha }}
+            *Сообщение:* ${{ github.event.head_commit.message }}
+            *Время:* ${{ github.event.head_commit.timestamp }}
+            *Ссылка:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          parse-mode: markdown
 
   cd:
     needs: ci
@@ -49,3 +73,21 @@ jobs:
           target: production
           push: true
           tags: ghcr.io/${{ github.repository }}:latest
+
+      - name: Notify Telegram
+        if: always()
+        uses: cbrgm/telegram-github-action@v1
+        with:
+          token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          message: |
+            *Репозиторий:* ${{ github.repository }}
+            *Пайплайн:* ${{ github.workflow }}
+            *Этап CD:* ${{ job.status == 'success' && 'успех' || 'провал' }}
+            *Автор:* ${{ github.actor }}
+            *Ветка:* ${{ github.ref_name }}
+            *Коммит:* ${{ github.sha }}
+            *Сообщение:* ${{ github.event.head_commit.message }}
+            *Время:* ${{ github.event.head_commit.timestamp }}
+            *Ссылка:* https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          parse-mode: markdown
