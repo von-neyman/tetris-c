@@ -1,5 +1,6 @@
-
 # **BrickGame v1.0 Тетрис**
+
+[![CI/CD](https://github.com/von-neyman/tetris-c/actions/workflows/tetris_c.yml/badge.svg)](https://github.com/von-neyman/tetris-c/actions/workflows/tetris_c.yml)
 
 Реализация игры «Тетрис» на языке программирования C с использованием структурного подхода. Это учебный проект Школы 21.
 Проект состоит из двух частей: библиотеки, реализующей логику работы игры, которую можно в будущем подключать к различным GUI, и терминального интерфейса на ncurses.
